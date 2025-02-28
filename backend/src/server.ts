@@ -1,20 +1,19 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import userRoutes from "./routes/userRoutes";
 import connectDB from "./config/db";
 
 dotenv.config();
+connectDB();
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
+app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;
-
-connectDB()
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch((err) => {
-    console.error("Failed to connect to database:", err);
-  });
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
