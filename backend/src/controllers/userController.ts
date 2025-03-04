@@ -22,6 +22,10 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
     res.status(401);
     throw new Error("Invalid email or password");
   }
+
+  console.log("User found:", user);
+  console.log("Entered Password:", password);
+  console.log("Hashed Password:", user?.password);
 });
 
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
